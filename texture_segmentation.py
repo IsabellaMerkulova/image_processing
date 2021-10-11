@@ -26,6 +26,7 @@ def get_uniques(window):
 
 @jit(nopython=False)
 def count_entropy(counts):
+    logging.info(f'counts: {counts}')
     norm_counts = counts / counts.sum()
     return -(norm_counts * np.log(norm_counts) / np.log(e)).sum()
 
