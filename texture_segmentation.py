@@ -25,12 +25,11 @@ def get_uniques(window):
     return np.unique(window, return_counts=True)
 
 @jit(nopython=False)
+@vectorize(['float32(float32, float32)'], target='cuda')
 def count_entropy(counts):
-    logging.info(f'counts: {counts}')
-    norm_counts = counts / counts.sum()
+    norm_counts = counts / sum(counts)
     return -(norm_counts * np.log(norm_counts) / np.log(e)).sum()
 
-#@vectorize(['float32(float32, float32)'], target='cuda')
 def get_entropy(window, base=None):
     counts = get_uniques(window)
     return count_entropy(counts)
@@ -58,13 +57,13 @@ def get_result_matrix(image, step_size, window_size, param_func):
 
 
 @jit(nopython=False)
-#@vectorize(['float32(float32, float32)'], target='cuda')
+@vectorize(['float32(float32, float32)'], target='cuda')
 def get_var(window):
     return np.var(window)
 
 
 @jit(nopython=False)
-#@vectorize(['float32(float32, float32)'], target='cuda')
+@vectorize(['float32(float32, float32)'], target='cuda')
 def get_std(window):
     return np.std(window)
 
