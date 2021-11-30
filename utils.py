@@ -11,5 +11,7 @@ def timeit(func):
         start = time.time()
         result = func(*args, **kwargs)
         end = time.time()
-        return result, end - start
+        tc = end - start
+        logging.info(f'Time consumed {tc}')
+        return result, tc
     return wrapper
